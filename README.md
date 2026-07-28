@@ -57,3 +57,14 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## subir cambios en github
+
+1. git add .
+2. git commit -m "nombre del commit"
+3. git push 
+
+## antes de subir cambios y alguien subio cambios recentemente primero bajen los combios con 
+git pull 
+## despues los demas comandos para subir sus cambios 
+
