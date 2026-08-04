@@ -1,1 +1,327 @@
-<p>home works!</p>
+<!-- Header -->
+<div class="home-header">
+  <div class="header-user">
+    <div class="user-avatar">
+      <img src="https://i.pravatar.cc/40?img=33" alt="Carlos" />
+    </div>
+    <div class="user-info">
+      <span class="user-greeting">Hola, Carlos</span>
+      <span class="user-privacy">
+        <span class="privacy-dot"></span>
+        Privacidad Activada
+      </span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <div class="notif-btn" (click)="toggleNotifications()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+      @if (hasUnreadNotifs()) {
+        <span class="notif-badge"></span>
+      }
+    </div>
+    <span class="checkup-plus">CheckUp+</span>
+  </div>
+</div>
+
+<!-- Notifications Dropdown / Popover -->
+@if (showNotifications()) {
+  <div class="notif-overlay" (click)="toggleNotifications()">
+    <div class="notif-popover" (click)="$event.stopPropagation()">
+      <div class="notif-header">
+        <div class="notif-title-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="notif-header-icon">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <h4 class="notif-title">Notificaciones</h4>
+        </div>
+        <button class="notif-close" (click)="toggleNotifications()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="notif-list">
+        @for (notif of notifications; track notif.id) {
+          <div class="notif-item" [class.unread]="notif.unread">
+            <div class="notif-icon-circle" [class.promo]="notif.type === 'promo'" [class.appointment]="notif.type === 'appointment'">
+              @if (notif.type === 'appointment') {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              } @else if (notif.type === 'promo') {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+              } @else {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+              }
+            </div>
+            <div class="notif-content">
+              <div class="notif-item-top">
+                <span class="notif-item-title">{{ notif.title }}</span>
+                <span class="notif-item-time">{{ notif.time }}</span>
+              </div>
+              <p class="notif-item-msg">{{ notif.message }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Search Bar -->
+<div class="search-wrapper">
+  <div class="search-bar">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="search-icon">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input
+      type="text"
+      placeholder="Buscar laboratorios o exámenes en Quito"
+      class="search-input"
+      [value]="searchQuery()"
+      (input)="onSearchInput($event)"
+    />
+    @if (searchQuery()) {
+      <button class="clear-search-btn" (click)="searchQuery.set('')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    }
+  </div>
+</div>
+
+<!-- Filter Tabs -->
+<div class="filter-tabs">
+  <button class="filter-tab" [class.active]="activeFilter() === 'rutina'" (click)="setFilter('rutina')">
+    Rutina General
+  </button>
+  <button class="filter-tab" [class.active]="activeFilter() === 'cercanas'" (click)="setFilter('cercanas')">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tab-icon">
+      <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+    </svg>
+    Sedes Cercanas
+  </button>
+  <button class="filter-tab" [class.active]="activeFilter() === 'todos'" (click)="setFilter('todos')">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tab-icon-grid">
+      <rect x="3" y="3" width="4" height="4"/><rect x="10" y="3" width="4" height="4"/><rect x="17" y="3" width="4" height="4"/>
+      <rect x="3" y="10" width="4" height="4"/><rect x="10" y="10" width="4" height="4"/><rect x="17" y="10" width="4" height="4"/>
+      <rect x="3" y="17" width="4" height="4"/><rect x="10" y="17" width="4" height="4"/><rect x="17" y="17" width="4" height="4"/>
+    </svg>
+    Todos
+  </button>
+</div>
+
+<!-- Promo Banner -->
+<div class="promo-banner">
+  <span class="promo-label">PROMOCIÓN DEL MES</span>
+  <h2 class="promo-title">Perfil Lipídico Completo</h2>
+  <p class="promo-desc">Monitorea tu salud cardiovascular con un 30% de descuento este mes.</p>
+  <button class="promo-btn">
+    Ver detalles
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+    </svg>
+  </button>
+</div>
+
+<!-- Labs Section -->
+<div class="labs-section">
+  <div class="labs-header">
+    <div>
+      <h3 class="labs-title">Laboratorios en Quito</h3>
+      <span class="labs-subtitle">{{ filteredLabs.length }} disponibles cerca de ti</span>
+    </div>
+    <button class="map-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21 3 6"/>
+        <line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/>
+      </svg>
+      Ver mapa
+    </button>
+  </div>
+
+  <!-- Lab Cards -->
+  <div class="labs-list">
+    @for (lab of filteredLabs; track lab.id) {
+      <div class="lab-card">
+        <div class="lab-card-content">
+          <div class="lab-image-wrap">
+            <img [src]="lab.image" [alt]="lab.name" class="lab-image" />
+          </div>
+          <div class="lab-info">
+            <div class="lab-top-row">
+              <h4 class="lab-name">{{ lab.name }}</h4>
+              <div class="lab-rating">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#f59e0b" class="star-icon">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                <span class="rating-value">{{ lab.rating }}</span>
+              </div>
+            </div>
+            <div class="lab-location">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="loc-icon">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span>{{ lab.distance }} • {{ lab.address }}</span>
+            </div>
+            <span class="lab-specialty">{{ lab.specialty }}</span>
+          </div>
+        </div>
+        <div class="lab-card-footer">
+          <button class="express-btn" (click)="openModal(lab)">
+            Agendar Cita Express
+          </button>
+          <button class="phone-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42C1.6 2.37 2.36 1.47 3.41 1.3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.41a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    } @empty {
+      <div class="no-labs-empty">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" class="empty-icon">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <p class="empty-title">No se encontraron laboratorios</p>
+        <p class="empty-desc">Intenta buscando con otro término o seleccionando la pestaña "Todos".</p>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- ============================== -->
+<!-- LOADING OVERLAY: Abriendo modal -->
+<!-- ============================== -->
+@if (loadingModal()) {
+  <div class="overlay-loading">
+    <div class="loading-card">
+      <div class="spinner"></div>
+      <p class="loading-title">Cargando</p>
+      <p class="loading-sub">Espera por favor...</p>
+    </div>
+  </div>
+}
+
+<!-- ============================== -->
+<!-- MODAL DE AGENDAMIENTO          -->
+<!-- ============================== -->
+@if (showModal()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-sheet" (click)="$event.stopPropagation()">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <span class="modal-tag">AGENDAMIENTO EXPRESS</span>
+        <button class="modal-close" (click)="closeModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-lab-info">
+        <div class="modal-lab-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2v6l-2 4v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9l-2-4V2"/><line x1="6" y1="10" x2="18" y2="10"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="modal-lab-name">{{ selectedLab()?.name }}</h3>
+          <p class="modal-lab-sub">{{ selectedLab()?.branch }} • {{ selectedLab()?.address }}</p>
+        </div>
+      </div>
+
+      <!-- Exam Types -->
+      <div class="modal-section">
+        <label class="modal-section-label">Tipo de Examen o Motivo</label>
+        <div class="exam-grid">
+          @for (exam of examTypes; track exam.id) {
+            <button class="exam-chip" [class.selected]="exam.selected" (click)="toggleExam(exam)">
+              {{ exam.name }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Date Selection -->
+      <div class="modal-section">
+        <label class="modal-section-label">Fecha Disponibilidad</label>
+        <div class="date-options">
+          <button class="date-chip" [class.selected]="selectedDate() === 'hoy'" (click)="selectDate('hoy')">Hoy</button>
+          <button class="date-chip" [class.selected]="selectedDate() === 'manana'" (click)="selectDate('manana')">Mañana</button>
+          <button class="date-chip" [class.selected]="selectedDate() === 'tres'" (click)="selectDate('tres')">En 3 días</button>
+        </div>
+      </div>
+
+      <!-- Time Slots -->
+      <div class="modal-section">
+        <label class="modal-section-label">Horario Turno Express</label>
+        <div class="time-grid">
+          @for (slot of timeSlots; track slot.time) {
+            <button class="time-chip" [class.selected]="slot.selected" (click)="selectTime(slot)">
+              {{ slot.time }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Check-in Notice -->
+      <div class="checkin-notice">
+        <div class="checkin-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <p class="checkin-text">Check-in instantáneo. Se generará tu Pase de Entrada QR de inmediato.</p>
+      </div>
+
+      <!-- Confirm Button -->
+      <button class="confirm-btn" [disabled]="loadingConfirm()" (click)="confirmAppointment()">
+        @if (loadingConfirm()) {
+          <span class="btn-spinner"></span>
+          Procesando...
+        } @else {
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3v-3z"/>
+            <path d="M18 18h3v3h-3v-3z"/><path d="M14 18h2v2h-2v-2z"/><path d="M18 14h2v2h-2v-2z"/>
+          </svg>
+          Confirmar Cita &amp; Obtener QR
+        }
+      </button>
+
+    </div>
+  </div>
+}
+
+<!-- ============================== -->
+<!-- SUCCESS MODAL: Cita confirmada -->
+<!-- ============================== -->
+@if (showSuccess()) {
+  <div class="overlay-success">
+    <div class="success-card">
+      <div class="success-check-ring">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="success-check-icon">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <h3 class="success-title">¡Cita Confirmada!</h3>
+      <p class="success-sub">QR generado exitosamente</p>
+      <p class="success-desc">Tu pase de entrada QR está listo. Preséntalo en recepción.</p>
+      <div class="success-progress">
+        <div class="success-progress-bar"></div>
+      </div>
+    </div>
+  </div>
+}
