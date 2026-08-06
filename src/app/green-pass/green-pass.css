@@ -7,6 +7,102 @@
   color: #0f172a;
 }
 
+:host-context(body.dark-theme) {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+:host-context(body.dark-theme) .green-pass-container {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+:host-context(body.dark-theme) .pass-header {
+  border-bottom-color: #1e293b !important;
+}
+
+:host-context(body.dark-theme) .status-card,
+:host-context(body.dark-theme) .qr-main-card,
+:host-context(body.dark-theme) .privacy-card,
+:host-context(body.dark-theme) .scanner-modal-card,
+:host-context(body.dark-theme) .result-card {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+:host-context(body.dark-theme) .header-title,
+:host-context(body.dark-theme) .status-title,
+:host-context(body.dark-theme) .result-title {
+  color: #f8fafc !important;
+}
+
+:host-context(body.dark-theme) .status-subtitle,
+:host-context(body.dark-theme) .privacy-text,
+:host-context(body.dark-theme) .result-subtitle {
+  color: #cbd5e1 !important;
+}
+
+:host-context(body.dark-theme) .action-pdf-btn,
+:host-context(body.dark-theme) .scanner-trigger-btn {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+:host-context(body.dark-theme) .expiry-badge {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+
+
+
+/* Dark Mode Overrides */
+body.dark-theme {
+  background-color: #0f172a !important;
+}
+
+body.dark-theme :host,
+body.dark-theme .green-pass-container {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+body.dark-theme .pass-header {
+  border-bottom-color: #1e293b !important;
+}
+
+body.dark-theme .header-title,
+body.dark-theme .status-title,
+body.dark-theme .result-title,
+body.dark-theme .modal-title {
+  color: #f8fafc !important;
+}
+
+body.dark-theme .qr-main-card,
+body.dark-theme .status-card,
+body.dark-theme .privacy-card,
+body.dark-theme .scanner-modal-card,
+body.dark-theme .result-card {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+body.dark-theme .privacy-text,
+body.dark-theme .status-subtitle,
+body.dark-theme .result-subtitle {
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .lock-btn,
+body.dark-theme .scanner-trigger-btn {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
 .green-pass-container {
   max-width: 540px;
   margin: 0 auto;
