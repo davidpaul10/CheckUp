@@ -1,0 +1,125 @@
+<div class="login-container">
+  <!-- Top Bar Theme Toggle -->
+  <div class="login-topbar">
+    <button class="theme-toggle-btn" (click)="toggleTheme()" [title]="themeService.isDarkMode() ? 'Modo Claro' : 'Modo Oscuro'">
+      @if (themeService.isDarkMode()) {
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="theme-icon">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      } @else {
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="theme-icon">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      }
+    </button>
+  </div>
+
+  <div class="login-card-wrapper">
+    <!-- Brand / Logo Header -->
+    <div class="brand-header">
+      <div class="logo-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+      </div>
+      <h1 class="brand-title">CheckUp+</h1>
+      <p class="brand-subtitle">Pase Verde &amp; Gestión Médica Digital</p>
+    </div>
+
+    <!-- Login Form -->
+    <form (submit)="onLogin($event)" class="login-form">
+      <div class="form-header">
+        <h2 class="form-title">Iniciar Sesión</h2>
+        <p class="form-desc">Ingresa cualquier usuario para acceder al sistema demo.</p>
+      </div>
+
+      @if (errorMessage()) {
+        <div class="error-alert">
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      <div class="form-group">
+        <label class="form-label" for="login-email">Correo Electrónico o Usuario</label>
+        <div class="input-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="input-icon">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          <input
+            id="login-email"
+            type="text"
+            class="form-input"
+            [value]="email()"
+            (input)="email.set($any($event.target).value)"
+            placeholder="ejemplo@checkup.ec"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="login-password">Contraseña</label>
+        <div class="input-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="input-icon">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <input
+            id="login-password"
+            type="password"
+            class="form-input"
+            [value]="password()"
+            (input)="password.set($any($event.target).value)"
+            placeholder="••••••••"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-options">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [checked]="rememberMe()" 
+            (change)="rememberMe.set($any($event.target).checked)"
+          />
+          <span>Recordar mi sesión</span>
+        </label>
+        <a href="javascript:void(0)" class="forgot-link">¿Olvidaste tu clave?</a>
+      </div>
+
+      <button type="submit" class="btn-login" [disabled]="isLoading()">
+        @if (isLoading()) {
+          <span class="spinner"></span>
+          Ingresando...
+        } @else {
+          <span>Ingresar a CheckUp+</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="btn-arrow">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        }
+      </button>
+
+      <div class="demo-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="demo-icon">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+        </svg>
+        <span>Modo Demo: Puedes escribir cualquier dato e ingresar directamente.</span>
+      </div>
+    </form>
+
+    <footer class="login-footer">
+      <p>© 2026 CheckUp+ Salud Digital • Todos los derechos reservados</p>
+    </footer>
+  </div>
+</div>

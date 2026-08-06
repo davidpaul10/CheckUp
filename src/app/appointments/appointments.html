@@ -1,50 +1,40 @@
 <section class="appointments-page">
-  <header class="appointments-header">
-    <h1>Confirmación de Cita</h1>
-    
-    <!-- Campanita de Notificaciones Interactiva -->
-    <div class="notification-container" (click)="toggleNotifications()">
-      <span class="icon-shield">🔔</span>
-      <span class="notification-badge" *ngIf="showNotificationBadge"></span>
-      <div class="notification-tooltip" *ngIf="showNotificationTooltip">
-        ✨ ¡Bienvenido Andy! Aquí puedes ver tus notificaciones
-      </div>
-    </div>
-  </header>
 
-  <div class="tabs flex gap-4 justify-center">
-    <button
-      *ngFor="let a of appointments; let i = index"
-      class="tab"
-      [class.tab-active]="i === selectedIndex"
-      (click)="selectTab(i)">
-      {{ a.labName.includes('Laboratorio') ? 'Laboratorio' : 'Clínica' }}
-      ({{ a.dateLabel }})
-    </button>
+  <!-- ── Selector de Citas (Tabs Pill) ─────────────────────── -->
+  <div class="tabs-wrapper">
+    <div class="tabs">
+      <button
+        *ngFor="let a of appointments; let i = index"
+        class="tab"
+        [class.tab-active]="i === selectedIndex"
+        (click)="selectTab(i)">
+        <span class="tab-type">{{ a.labName.includes('Laboratorio') ? '🧪 Laboratorio' : '🏥 Clínica' }}</span>
+        <span class="tab-date">{{ a.dateLabel }}</span>
+      </button>
+    </div>
   </div>
 
-  <!-- Banner de Aviso de Ayuno Activo (Solo si es para hoy y requiere ayuno) -->
+  <!-- ── Banner Ayuno ──────────────────────────────────────── -->
   <div class="fasting-banner" *ngIf="selected.dateLabel === 'Hoy' && selected.instructions.includes('ayunas')">
     <span>⏳</span>
     <span><strong>Aviso de Ayuno:</strong> Tu cita es hoy. Recuerda mantener tus 8 horas de ayuno indicadas.</span>
   </div>
 
+  <!-- ── Estado de la Cita ──────────────────────────────────── -->
   <div class="status-block">
     <div class="status-icon" [class.status-pending]="selected.status === 'pending'" [class.checked-pulse]="selected.status === 'checked-in'">✓</div>
   </div>
-
   <p class="status-label">
     {{ selected.status === 'checked-in' ? 'CHECK-IN LISTO' : 'PENDIENTE' }}
   </p>
 
+  <!-- ── Tarjeta de Cita ────────────────────────────────────── -->
   <div class="appointment-card">
     <div class="card-top">
       <div class="card-info">
         <span class="maps-badge">⭐ Top #{{ selected.mapRank }} Maps ({{ selected.rating }}) • {{ selected.distance }}</span>
         <h2>{{ selected.labName }}</h2>
         <p class="muted">{{ selected.sede }} • {{ selected.city }}</p>
-        
-        <!-- Botón de Ruta Rápida con Maps -->
         <button class="map-route-btn" (click)="openMapRoute()">
           📍 Ver Ruta Rápida en Maps
         </button>
@@ -74,6 +64,7 @@
     </div>
   </div>
 
+  <!-- ── Pase QR ────────────────────────────────────────────── -->
   <div class="qr-card">
     <div class="qr-placeholder">
       <div class="qr-fake"></div>
@@ -89,12 +80,12 @@
     ⬇ Guardar en Galería
   </button>
 
-<button class="btn-secondary" (click)="shareAppointment()" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366">
-    <path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.74.46 3.45 1.34 4.95l-1.42 5.19 5.34-1.4c1.45.79 3.12 1.21 4.84 1.21 5.46 0 9.9-4.44 9.9-9.9 0-2.65-1.03-5.14-2.9-7.01C17.18 3.03 14.69 2 12.04 2zM12.04 20.1c-1.5 0-2.97-.4-4.24-1.16l-.3-.18-3.11.82.83-3.03-.2-.31c-.82-1.31-1.25-2.83-1.25-4.38 0-4.57 3.72-8.29 8.29-8.29 2.22 0 4.31.86 5.88 2.43 1.57 1.57 2.43 3.66 2.43 5.88 0 4.57-3.72 8.29-8.29 8.29zm4.55-6.25c-.25-.13-1.48-.73-1.71-.82-.23-.09-.4-.13-.57.13-.17.25-.66.82-.81 1-.15.17-.31.19-.56.06-.25-.13-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.31.38-.47.13-.17.17-.28.25-.47.08-.19.04-.36-.02-.5-.06-.13-.57-1.38-.78-1.89-.2-.48-.41-.42-.57-.43h-.49c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.43 1.03 2.6.13.17 1.78 2.72 4.31 3.81.6.26 1.07.41 1.44.53.61.19 1.16.16 1.6-.02.49-.2 1.48-.6 1.69-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.3z"/>
-  </svg>
-  Compartir Cita (WhatsApp / Copiar)
-</button>
+  <button class="btn-secondary" (click)="shareAppointment()" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366">
+      <path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.74.46 3.45 1.34 4.95l-1.42 5.19 5.34-1.4c1.45.79 3.12 1.21 4.84 1.21 5.46 0 9.9-4.44 9.9-9.9 0-2.65-1.03-5.14-2.9-7.01C17.18 3.03 14.69 2 12.04 2zM12.04 20.1c-1.5 0-2.97-.4-4.24-1.16l-.3-.18-3.11.82.83-3.03-.2-.31c-.82-1.31-1.25-2.83-1.25-4.38 0-4.57 3.72-8.29 8.29-8.29 2.22 0 4.31.86 5.88 2.43 1.57 1.57 2.43 3.66 2.43 5.88 0 4.57-3.72 8.29-8.29 8.29zm4.55-6.25c-.25-.13-1.48-.73-1.71-.82-.23-.09-.4-.13-.57.13-.17.25-.66.82-.81 1-.15.17-.31.19-.56.06-.25-.13-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.31.38-.47.13-.17.17-.28.25-.47.08-.19.04-.36-.02-.5-.06-.13-.57-1.38-.78-1.89-.2-.48-.41-.42-.57-.43h-.49c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.43 1.03 2.6.13.17 1.78 2.72 4.31 3.81.6.26 1.07.41 1.44.53.61.19 1.16.16 1.6-.02.49-.2 1.48-.6 1.69-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.3z"/>
+    </svg>
+    Compartir Cita (WhatsApp / Copiar)
+  </button>
 
   <button class="link-btn" (click)="openManageModal()">
     Cancelar o Reagendar
@@ -223,4 +214,5 @@
       </div>
     </div>
   </div>
+
 </section>

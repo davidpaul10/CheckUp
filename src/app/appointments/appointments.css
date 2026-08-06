@@ -4,24 +4,124 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #f7f7f8;
 }
 
-@keyframes pulseGlow {
-  0% { box-shadow: 0 0 0 0 rgba(31, 157, 85, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(31, 157, 85, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(31, 157, 85, 0); }
+:host-context(body.dark-theme) {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+:host-context(body.dark-theme) .appointments-page {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+:host-context(body.dark-theme) .tabs-wrapper {
+  background: #0f172a !important;
+}
+
+:host-context(body.dark-theme) .appointment-card,
+:host-context(body.dark-theme) .manage-modal-card,
+:host-context(body.dark-theme) .booking-modal-card,
+:host-context(body.dark-theme) .qr-card,
+:host-context(body.dark-theme) .modal-box {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+:host-context(body.dark-theme) .tab-pill {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+:host-context(body.dark-theme) .tab-pill.active {
+  background-color: #00c885 !important;
+  border-color: #00c885 !important;
+  color: #0f172a !important;
+}
+
+:host-context(body.dark-theme) .instructions-box {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+
+/* Dark Mode Overrides */
+body.dark-theme .appointments-page {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+body.dark-theme .tabs-wrapper {
+  background: #0f172a !important;
+}
+
+body.dark-theme .appointment-card,
+body.dark-theme .qr-card,
+body.dark-theme .modal-box,
+body.dark-theme .manage-modal-card,
+body.dark-theme .booking-modal-card {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+body.dark-theme .lab-title,
+body.dark-theme .appointments-title,
+body.dark-theme .qr-label,
+body.dark-theme .info-title,
+body.dark-theme .modal-title,
+body.dark-theme .section-label {
+  color: #f8fafc !important;
+}
+
+body.dark-theme .lab-subtitle,
+body.dark-theme .info-desc,
+body.dark-theme .instructions-text {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .instructions-box {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .tab-pill {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .tab-pill.active {
+  background-color: #00c885 !important;
+  border-color: #00c885 !important;
+  color: #0f172a !important;
 }
 
 .appointments-page {
   background: #f7f7f8;
   min-height: 100vh;
-  padding: 1.5rem;
+  padding: 0 1.5rem 1.5rem;
   font-family: system-ui, sans-serif;
   color: #111;
   animation: fadeIn 0.3s ease-out;
+}
+
+.tabs-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #f7f7f8;
+  padding: 0.85rem 0 0.75rem;
+  margin: 0 -1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .flex {
@@ -87,22 +187,96 @@
 .tabs {
   margin-bottom: 1.5rem;
   overflow-x: auto;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 6px;
+  background: #e2e8f0;
+  border-radius: 16px;
 }
 
 .tab {
-  background: none;
+  background: transparent;
   border: none;
-  color: #999;
-  font-size: 0.95rem;
-  padding: 0.5rem 0;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.6rem 1.1rem;
   cursor: pointer;
   white-space: nowrap;
+  border-radius: 12px;
+  transition: all 0.22s ease;
+  letter-spacing: 0.01em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.08rem;
+  line-height: 1.3;
+}
+
+.tab-type {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: inherit;
+}
+
+.tab-date {
+  font-size: 0.7rem;
+  font-weight: 500;
+  opacity: 0.75;
+  color: inherit;
+}
+
+.tab:hover {
+  background: rgba(255,255,255,0.6);
+  color: #1e293b;
 }
 
 .tab-active {
-  color: #111;
-  font-weight: 600;
-  border-bottom: 2px solid #111;
+  background: #00c885;
+  color: #ffffff !important;
+  box-shadow: 0 3px 10px rgba(0,200,133,0.35);
+  border-radius: 12px;
+  font-weight: 700;
+  border-bottom: none;
+}
+
+.tab-active .tab-type,
+.tab-active .tab-date {
+  color: #ffffff !important;
+  opacity: 1;
+}
+
+/* Dark mode tabs */
+:host-context(body.dark-theme) .tabs,
+body.dark-theme .tabs {
+  background: #1e293b;
+}
+
+:host-context(body.dark-theme) .tab,
+body.dark-theme .tab {
+  color: #94a3b8;
+}
+
+:host-context(body.dark-theme) .tab:hover,
+body.dark-theme .tab:hover {
+  background: rgba(255,255,255,0.07);
+  color: #f8fafc;
+}
+
+:host-context(body.dark-theme) .tab-active,
+body.dark-theme .tab-active {
+  background: #00c885;
+  color: #0f172a !important;
+  box-shadow: 0 3px 12px rgba(0,200,133,0.4);
+}
+
+:host-context(body.dark-theme) .tab-active .tab-type,
+:host-context(body.dark-theme) .tab-active .tab-date,
+body.dark-theme .tab-active .tab-type,
+body.dark-theme .tab-active .tab-date {
+  color: #0f172a !important;
+  opacity: 1;
 }
 
 .status-block {

@@ -1,5 +1,160 @@
 /* ===== HOME COMPONENT ===== */
 
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+:host-context(body.dark-theme) {
+  background-color: #0f172a !important;
+}
+
+:host-context(body.dark-theme) .home-header {
+  background: #0f172a !important;
+  background-color: #0f172a !important;
+}
+
+:host-context(body.dark-theme) .promo-banner,
+:host-context(body.dark-theme) .lab-card,
+:host-context(body.dark-theme) .notif-popover,
+:host-context(body.dark-theme) .modal-sheet {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+:host-context(body.dark-theme) .user-greeting,
+:host-context(body.dark-theme) .checkup-plus,
+:host-context(body.dark-theme) .promo-title,
+:host-context(body.dark-theme) .labs-title,
+:host-context(body.dark-theme) .lab-name,
+:host-context(body.dark-theme) .rating-value {
+  color: #f8fafc !important;
+}
+
+:host-context(body.dark-theme) .promo-desc,
+:host-context(body.dark-theme) .user-privacy,
+:host-context(body.dark-theme) .lab-location,
+:host-context(body.dark-theme) .lab-specialty {
+  color: #94a3b8 !important;
+}
+
+:host-context(body.dark-theme) .search-bar {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+:host-context(body.dark-theme) .search-input {
+  color: #f8fafc !important;
+}
+
+:host-context(body.dark-theme) .filter-tab {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+:host-context(body.dark-theme) .filter-tab.active {
+  background-color: #00c885 !important;
+  border-color: #00c885 !important;
+  color: #0f172a !important;
+}
+
+:host-context(body.dark-theme) .express-btn {
+  color: #00c885 !important;
+}
+
+:host-context(body.dark-theme) .phone-btn {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+:host-context(body.dark-theme) .notif-item-title {
+  color: #f8fafc !important;
+}
+
+:host-context(body.dark-theme) .notif-item {
+  background-color: #1e293b !important;
+}
+
+:host-context(body.dark-theme) .notif-item.unread {
+  background-color: rgba(0, 200, 133, 0.12) !important;
+}
+
+/* Dark Mode Overrides (global fallbacks) */
+body.dark-theme .home-header,
+body.dark-theme .promo-banner,
+body.dark-theme .lab-card,
+body.dark-theme .notif-popover,
+body.dark-theme .modal-sheet {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+body.dark-theme .user-greeting,
+body.dark-theme .checkup-plus,
+body.dark-theme .promo-title,
+body.dark-theme .labs-title,
+body.dark-theme .lab-name,
+body.dark-theme .modal-lab-name,
+body.dark-theme .modal-section-label,
+body.dark-theme .rating-value {
+  color: #f8fafc !important;
+}
+
+body.dark-theme .promo-desc,
+body.dark-theme .user-privacy,
+body.dark-theme .modal-lab-sub,
+body.dark-theme .lab-location,
+body.dark-theme .lab-specialty {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .search-bar,
+body.dark-theme .filter-tab {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .search-input {
+  color: #f8fafc !important;
+}
+
+body.dark-theme .filter-tab.active {
+  background-color: #00c885 !important;
+  border-color: #00c885 !important;
+  color: #0f172a !important;
+}
+
+body.dark-theme .express-btn {
+  color: #00c885 !important;
+}
+
+body.dark-theme .phone-btn {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .phone-btn svg {
+  stroke: #cbd5e1 !important;
+}
+
+body.dark-theme .notif-header,
+body.dark-theme .notif-item {
+  background-color: #1e293b !important;
+}
+
+body.dark-theme .notif-item.unread {
+  background-color: rgba(0, 200, 133, 0.1) !important;
+}
+
+body.dark-theme .notif-item-title {
+  color: #f8fafc !important;
+}
+
 /* Header */
 .home-header {
   display: flex;
